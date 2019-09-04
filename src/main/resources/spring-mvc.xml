@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="top.xiaobucvg.apimock"/>
+
+    <!-- 在这里配置消息转换器 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <ref bean="jsonHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 消息转换器 -->
+    <bean id="jsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+        <property name="fastJsonConfig">
+            <bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
+                <property name="serializeFilters" ref="propsFilter"/>
+                <property name="charset" value="UTF-8"/>
+            </bean>
+        </property>
+        <property name="defaultCharset" value="UTF-8"/>
+    </bean>
+
+    <!-- 属性过滤器 用来过滤Response类中的isSuccess属性 使其不参与json序列化中 -->
+    <!-- 注意 success 属性是根据 setSuccess 或者 isSuccess 来的 -->
+    <bean id="propsFilter" class="top.xiaobucvg.apimock.pojo.ResponseToJsonFilter">
+        <constructor-arg name="clazz" value="top.xiaobucvg.apimock.pojo.Response"/>
+        <constructor-arg name="properties">
+            <list>
+                <value>success</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- 用来获取上下文 -->
+    <bean class="top.xiaobucvg.apimock.util.WebApplicationAware"/>
+</beans>
+
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>API-MOCK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./lib/bulma.css" type="text/css" />
+    <link rel="stylesheet" href="./css/index.css" type="text/css" />
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/axios.min.js"></script>
+</head>
+
+
+<body>
+    <!-- 页面头部 -->
+    <section class="section">
+        <!-- 头部标题 -->
+        <div class="container">
+            <h1 class="title">API-MOCK V-1.0.0</h1>
+        </div>
+    </section>
+    <!-- 页面中间主体 -->
+    <div class="section">
+        <div class="container" id="app">
+            <!-- 上册注册API的表单 -->
+            <div>
+                <form method="POST">
+                    <div class="filed">
+                        <label class="label">名称:</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="输入API的名字" v-model="name" />
+                        </div>
+                    </div>
+                    <div class="filed">
+                        <label class="label">说明:</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="一句话介绍一下你的API" v-model="description" />
+                        </div>
+                    </div>
+                    <div class="filed">
+                        <label class="label">路径:</label>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <a class="button is-static">{{serverPath}}</a>
+                            </div>
+                            <div class="control  is-expanded">
+                                <input class="input" type="text" placeholder="API路径" v-model="path" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">方式:</label>
+                        <div class="control">
+                            <div class="select">
+                                <select v-model="method">
+                                    <option>GET</option>
+                                    <option>POST</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">响应:</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="想要响应内容" v-model="response"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="button" value="注册" class="button is-primary" @click="registerApi" />
+                        <input type="reset" value="清空" class="button is-danger" />
+                    </div>
+                </form>
+            </div>
+
+            <HR></HR>
+
+            <!-- 下方把全部API罗列出来 -->
+            <div class="">
+
+                <div class="columns">
+                    <div class="column is-four-fifths">
+                        <!-- 搜索框 -->
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Key Word" ref="keywordInput" />
+                            </div>
+                            <div class="control">
+                                <a class="button is-primary" @click="keyword=$refs.keywordInput.value">从所有API中搜索</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <button class="button is-danger" @click="deleteAll">删除所有API</button>
+                    </div>
+                </div>
+
+                <!-- API条目 -->
+                <div class="card apiitem" v-for="item in lookupApi(keyword)">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            <span class="tag is-success">{{item.method}}</span>- {{item.name}}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <span class="tag">地址:</span><a :href="serverPath+item.path" target="_blank">{{serverPath + item.path}}</a>
+                            <p><span class="tag">描述:</span>{{item.description}}</p>
+                            <span class="tag">创建时间:</span><time>{{new Date(item.date).toLocaleString()}}</time>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="#" class="card-footer-item" @click="edit(item)">编辑</a>
+                        <a href="#" class="card-footer-item" @click.prevent="deleteItem(item.id)">删除</a>
+                    </footer>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>API-MOCK</strong> by <a href="#">xiaobu</a>. The source code is licensed
+                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+<script src="./js/index.js"></script>
+
+</html>

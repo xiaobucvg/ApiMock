@@ -1,0 +1,28 @@
+.card {
+    margin-bottom: 10px;
+}
+
+.card-header {
+    background-color: #00d1b2;
+}
+
+.card-header p {
+    color: white;
+}
+
+.tag {
+    margin-right: 5px;
+}
+
+.apiitem a {
+    color: #4a4a4a;
+}
+
+.apiitem a:hover {
+    color: cornflowerblue;
+}
+
+.apiitem .content a:hover {
+    color: #4a4a4a;
+    text-decoration: underline;
+}

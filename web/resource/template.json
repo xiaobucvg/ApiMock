@@ -1,0 +1,15 @@
+[{
+    "id": "UUTFFFOO00099334",
+    "name": "增加商品",
+    "description": "这个API用来增加商品",
+    "path": "http://127.0.0.1:8080/api/goto.do",
+    "method": "GET",
+    "response": "{'age':19,'name':'张三'}"
+}, {
+    "id": "UUTFFFOO00099334",
+    "name": "增加商品",
+    "description": "这个API用来增加商品",
+    "path": "http://127.0.0.1:8080/api/goto.do",
+    "method": "GET",
+    "response": "{'age':19,'name':'张三'}"
+}]
