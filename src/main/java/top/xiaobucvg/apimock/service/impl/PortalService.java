@@ -1,5 +1,6 @@
 package top.xiaobucvg.apimock.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
@@ -13,6 +14,7 @@ import top.xiaobucvg.apimock.pojo.Response;
 import top.xiaobucvg.apimock.service.IPortalService;
 import top.xiaobucvg.apimock.util.ApiCache;
 import top.xiaobucvg.apimock.util.ResponseCreater;
+import top.xiaobucvg.apimock.util.WebApplicationAware;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -25,6 +27,10 @@ import java.util.List;
  */
 @Service
 public class PortalService implements IPortalService {
+    @Autowired
+    private WebApplicationAware webApplicationAware;
+
+    private WebApplicationContext webApplicationContext = webApplicationAware.getWebApplicationContext();
 
 
     /***
