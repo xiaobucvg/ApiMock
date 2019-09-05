@@ -36,10 +36,10 @@ var vm = new Vue({
             let param = new URLSearchParams();
             param.append("name", this.name);
             param.append("description", this.description);
-            param.append("path", this.path);
+            param.append("path", this.path + ".do");
             param.append("requestMethod", this.method);
             param.append("responseBody", this.response);
-            axios.post(this.serverPath + "register_api.do", param).then(res => {
+            axios.post(this.serverPath + "register_api_re", param).then(res => {
                 let data = res.data;
                 if (data.status != 0) {
                     alert("添加API失败：" + data.msg);
@@ -54,7 +54,7 @@ var vm = new Vue({
         },
         // 列出所有API
         showAllApis() {
-            axios.get(this.serverPath + "get_all_api.do").then(res => {
+            axios.get(this.serverPath + "get_all_api").then(res => {
                 let data = res.data;
                 if (data.status != 0) {
                     alert("获取所有API失败：" + data.msg);
@@ -78,6 +78,8 @@ var vm = new Vue({
         },
         // 编辑指定的API
         edit(item) {
+            console.log(item);
+
             this.name = item.name;
             this.description = item.description;
             let index = item.path.indexOf(this.serverPath);
@@ -89,7 +91,7 @@ var vm = new Vue({
         deleteItem(id) {
             let param = new URLSearchParams();
             param.append("id", id);
-            axios.post(this.serverPath + "un_register_api_by_id.do", param).then(res => {
+            axios.post(this.serverPath + "un_register_api_by_id", param).then(res => {
                 let data = res.data;
                 if (data.status != 0) {
                     alert("删除失败：" + data.msg);
@@ -104,7 +106,7 @@ var vm = new Vue({
         deleteAll() {
             let code = confirm("确定删除全部?");
             if (!code) return;
-            axios.post(this.serverPath + "un_register_all_api.do").then(res => {
+            axios.post(this.serverPath + "un_register_all_api").then(res => {
                 let data = res.data;
                 if (data.status != 0) {
                     alert("删除全部失败：" + data.msg);

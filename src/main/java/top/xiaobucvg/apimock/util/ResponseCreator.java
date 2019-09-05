@@ -7,7 +7,7 @@ import top.xiaobucvg.apimock.pojo.Response;
  *
  * by Mr.Zhang
  */
-public class ResponseCreater {
+public class ResponseCreator {
 
     /***
      * 创建响应成功的对象
@@ -21,10 +21,28 @@ public class ResponseCreater {
     }
 
     /***
+     * 创建响应成功的对象
+     */
+    public static <T> Response<T> createSuccessResponse(T resBody,String msg) {
+        Response<T> response = new Response<T>();
+        response.setStatus(Response.SUCCESS);
+        response.setMsg(msg);
+        response.setResponseBody(resBody);
+        return response;
+    }
+
+    /***
      * 创建响应成功的对象 - 没有响应体 - 只是提示响应成功
      */
     public static Response createSuccessResponse() {
         return createSuccessResponse(null);
+    }
+
+    public static Response createSuccessResponse(String msg) {
+        Response response = new Response();
+        response.setStatus(Response.SUCCESS);
+        response.setMsg(msg);
+        return response;
     }
 
     /***
@@ -38,12 +56,28 @@ public class ResponseCreater {
     }
 
     /***
+     * 创建响应失败的对象
+     */
+    public static Response createFailResponse(String msg) {
+        Response response = new Response();
+        response.setStatus(Response.FAIL);
+        response.setMsg(msg);
+        return response;
+    }
+
+    /***
      * 创建响应错误的对象
      */
     public static Response createErrorResponse() {
         Response response = new Response();
         response.setStatus(Response.ERROR);
         response.setMsg("请求出错");
+        return response;
+    }
+    public static Response createErrorResponse(String msg) {
+        Response response = new Response();
+        response.setStatus(Response.ERROR);
+        response.setMsg(msg);
         return response;
     }
 }

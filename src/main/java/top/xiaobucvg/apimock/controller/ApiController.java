@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /***
- * 这个 Controller 提供一个方法，每次请求方法的时候，从方法库中找到对应的方法对象，然后用处理器映射器重新映射到这个方法，就等于创建了一个Api
+ * 这个 Controller 提供一个方法，每次请求方法的时候，从方法缓存中找到对应的方法对象，然后用处理器映射器重新映射到这个方法，就等于创建了一个Api
  *
  * by Mr.Zhang
  */

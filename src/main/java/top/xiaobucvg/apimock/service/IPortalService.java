@@ -1,19 +1,19 @@
 package top.xiaobucvg.apimock.service;
 
-import org.springframework.web.context.WebApplicationContext;
 import top.xiaobucvg.apimock.pojo.Api;
 import top.xiaobucvg.apimock.pojo.Response;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface IPortalService {
-    Response registerApi(WebApplicationContext webApplicationContext, Api api);
+    Response<Api> registerApi_v1_5(Api api);
 
-    Response<List<Api>> getAllApi();
+    Map<String, Object> registerApiRe(Api api);
 
-    Response unRegisterApi(WebApplicationContext webApplicationContext, Api api, int index);
+    Response<Set<Api>> getAllApi();
 
-    Response unRegisterApiById(WebApplicationContext webApplicationContext,String uuid);
+    Response unRegisterApiById(String uuid);
 
-    Response unRegisterAllApi(WebApplicationContext webApplicationContext);
+    Response unRegisterAllApi();
 }
