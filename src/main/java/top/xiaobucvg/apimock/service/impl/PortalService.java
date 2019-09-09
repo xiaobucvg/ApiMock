@@ -1,5 +1,7 @@
 package top.xiaobucvg.apimock.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
@@ -14,6 +16,7 @@ import top.xiaobucvg.apimock.service.IPortalService;
 import top.xiaobucvg.apimock.util.ApiCache_v1_5;
 import top.xiaobucvg.apimock.util.ResponseCreator;
 import top.xiaobucvg.apimock.util.WebApplicationAware;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +30,9 @@ import java.util.Set;
  */
 @Service
 public class PortalService implements IPortalService {
+
+    private static Logger logger = LoggerFactory.getLogger(PortalService.class);
+
     @Autowired
     private WebApplicationAware webApplicationAware;
 
@@ -43,7 +49,7 @@ public class PortalService implements IPortalService {
         try {
             method = ApiController.class.getMethod("requestApi");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("无法从ApiController中获取到requestApi()方法" + e.toString());
             return ResponseCreator.createFailResponse();
         }
 
@@ -69,15 +75,15 @@ public class PortalService implements IPortalService {
      */
     @Override
     public Map<String, Object> registerApiRe(Api api) {
-        Map<String,Object> res = new HashMap<>();
+        Map<String, Object> res = new HashMap<>();
         Method method = null;
         // 从handler中获取方法，获取不到就失败
         try {
             method = ApiController.class.getMethod("requestApi");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            res.put("status",Response.FAIL);
-            res.put("msg","注册失败");
+            logger.error("无法从ApiController中获取到requestApi()方法" + e.toString());
+            res.put("status", Response.FAIL);
+            res.put("msg", "注册失败");
             return res;
         }
 
@@ -85,10 +91,9 @@ public class PortalService implements IPortalService {
         // 如果原先存在相同的Api，把原先的处理器删除
         if (ApiCache_v1_5.containsApi(api)) {
             justUnRegisterApi(api);
-            res.put("isCover","true");
-        }
-        else {
-            res.put("isCover","false");
+            res.put("isCover", "true");
+        } else {
+            res.put("isCover", "false");
         }
 
         ApiCache_v1_5.putApi(api);
@@ -100,9 +105,9 @@ public class PortalService implements IPortalService {
         // 注册处理器
         handlerMapping.registerMapping(mappingInfo, "apiController", method);
 
-        res.put("msg","注册成功");
-        res.put("responseBody",api);
-        res.put("status",0);
+        res.put("msg", "注册成功");
+        res.put("responseBody", api);
+        res.put("status", 0);
 
         return res;
     }
@@ -141,7 +146,7 @@ public class PortalService implements IPortalService {
             ApiCache_v1_5.removeApi(api.getId());
         }
         // 注意:返回的信息中会存在所有被删除的api信息
-        return ResponseCreator.createSuccessResponse(apis,"删除成功");
+        return ResponseCreator.createSuccessResponse(apis, "删除成功");
     }
 
     /***

@@ -78,8 +78,6 @@ var vm = new Vue({
         },
         // 编辑指定的API
         edit(item) {
-            console.log(item);
-
             this.name = item.name;
             this.description = item.description;
             let index = item.path.indexOf(this.serverPath);

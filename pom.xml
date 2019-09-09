@@ -6,7 +6,8 @@
 
     <groupId>top.xiaobucvg</groupId>
     <artifactId>api-mock</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.5</version>
+    <packaging>war</packaging>
     <dependencies>
 
         <dependency>
@@ -65,5 +66,51 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!--日志-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.25</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <webXml>web/WEB-INF/web.xml</webXml>
+                    <warSourceDirectory>web</warSourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

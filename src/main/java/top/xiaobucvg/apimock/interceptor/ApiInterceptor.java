@@ -1,5 +1,7 @@
 package top.xiaobucvg.apimock.interceptor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,6 +19,8 @@ import java.util.Date;
  * by Mr.Zhang
  */
 public class ApiInterceptor extends HandlerInterceptorAdapter {
+    private static Logger logger = LoggerFactory.getLogger(ApiInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 如果请求的路径不是以.do结尾的直接放过，因为根据正规方式注册的Api一定是以.do结尾的
@@ -35,15 +39,10 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
         if (api == null) {
             return true;
         }
-        ApiController.setResponseBody(api.getResponseBody());
+        String responseBody = api.getResponseBody();
+        logger.debug("要设置的响应体：" + responseBody);
+        ApiController.setResponseBody(responseBody);
         return true;
-    }
-
-    /***
-     * 构造Api的ID
-     */
-    private static String buildId(Api api) {
-        return api.getPath() + api.getRequestMethod();
     }
 
     /***
@@ -51,7 +50,7 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
      */
     private static String buildId(String path, String method) {
         String id = path + method;
-        if(!id.startsWith("/")){
+        if (!id.startsWith("/")) {
             return "/" + id;
         }
         return id;
